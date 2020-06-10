@@ -6,4 +6,4 @@
 
 ## Temas
 
-- [Instación](./001/README.md)
+- [Instalación y Configuración](./001/README.md)
