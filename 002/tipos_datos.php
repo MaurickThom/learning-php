@@ -32,4 +32,13 @@
     # para saver que tipo son y ademas ver el dato que trae
     var_dump($binario);
     var_dump($string);
+
+    # asignacion por referencia
+    $text = "lorem ipsum";
+    $newText = &$text;
+
+    echo $newText,"\n";
+    $newText = "asdas 1";
+    echo $text,"\n";
+    echo $newText,"\n";
 ?>
