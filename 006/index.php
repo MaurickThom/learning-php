@@ -23,6 +23,9 @@
 
         echo Course::$bienvenida. "</br>";
         echo Course::obtenerDenominacion(). "</br>";
+
+        $php->asignarConocimiento(['POO PHP','Tipos de datos en PHP','Arreglos PHP']);
+        var_dump($php->obtenerConocimiento());
     ?>
 </body>
 </html>
