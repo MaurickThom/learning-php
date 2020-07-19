@@ -9,6 +9,8 @@
 - [Instalación y Configuración](./001/README.md)
 - [Variables,operadores y datos](./002/)
 - [Arreglos y manejo de errores](./003/)
+- [Estructuras de control y funciones](./004/)
+- [Introduccion a POO en PHP](./005/)
 
 ## Referencias
 
