@@ -1,6 +1,6 @@
 <?php 
 
-    class Course{
+    class Course_1{
         public $name;
         public $time;
         public $teacher;
@@ -19,7 +19,7 @@
         }
     }
 
-    $php = new Course();
+    $php = new Course_1();
     $php->name = "PHP";
     $php->time = date('m/d/Y h:i:s');
     $php->teacher = "Thom Maurick Roman Aguilar";
