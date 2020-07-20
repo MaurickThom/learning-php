@@ -12,8 +12,10 @@
 - [Estructuras de control y funciones](./004/)
 - [Introduccion a POO en PHP](./005/)
 - [POO avanzado I](./006/)
+- [POO avanzado II](./007/)
 
 ## Referencias
 
 - https://www.youtube.com/watch?v=cr92SsKX9M4
-- https://www.youtube.com/watch?v=taF20kg-OG0&t=367s
+- https://www.youtube.com/watch?v=taF20kg-OG0
+- https://www.php.net/manual/es/language.oop5.paamayim-nekudotayim.php
