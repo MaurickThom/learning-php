@@ -72,6 +72,42 @@ class MysqlStudent implements DAO
             $this->connection = null;
         }
     }
+
+    // ['nombre','paterno'] => options
+    // ['edad >'=>20]
+    // ['paterno LIKE'=>'%ias']
+    public function selectParams($options = [],$where = []){
+        try {
+            $this->connection = MysqlConnection::getInstanceDB()->getConnection();
+            $cadena = '';
+            $query = "";
+            if(!empty($options))
+                $cadena = "*";
+            else{
+                foreach ($options as $option) {
+                    $cadena .= $option.",";
+                }
+                $cadena = substr($cadena,0,-1);
+            }
+            if(!empty($where))
+                $query = "SELECT {$cadena} FROM estudiantes";
+            else{
+                $condiciones = [];
+                foreach ($where as $key => $value) {
+                    if($value != ''){
+                        $condiciones[] = "{$key} {$value}";
+                    }
+                }
+                $query = "SELECT {$cadena} FROM estudiantes WHERE {implode('AND',$condiciones)}";
+                return $consulta = $this->connection->query($query)->fetchAll();
+            }
+        } catch (Exception $e) {
+            exit("ERROR: " . $e->getMessage());
+        } finally {
+            MysqlConnection::closeConnection();
+            $this->connection = null;
+        }
+    }
     public function showById($key)
     {
         try {
