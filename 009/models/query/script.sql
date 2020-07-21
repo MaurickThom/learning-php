@@ -80,3 +80,29 @@ INSERT INTO estudiantes_tecnologias (id_estudiante,id_tecnologia) VALUES
 (1,11),
 (2,12),
 (3,9);
+
+
+SELECT  * FROM estudiantes as es JOIN paises as p ON es.id_pais = p.id_pais;
+SELECT  * FROM estudiantes as es , paises p WHERE es.id_pais = p.id_pais;
+
+
+SELECT * FROM estudiantes LEFT JOIN estudiantes_tecnologias ON estudiantes.id_estudiante = estudiantes_tecnologias.id_estudiante;
+SELECT * FROM estudiantes RIGHT JOIN estudiantes_tecnologias ON estudiantes.id_estudiante = estudiantes_tecnologias.id_estudiante;
+
+SELECT * FROM estudiantes RIGHT JOIN 
+estudiantes_tecnologias ON estudiantes.id_estudiante = estudiantes_tecnologias.id_estudiante
+WHERE estudiantes.nombre IS NOT NULL;
+
+SELECT * FROM estudiantes INNER JOIN estudiantes_tecnologias ON estudiantes.id_estudiante = estudiantes_tecnologias.id_estudiante
+LEFT  JOIN tecnologias ON tecnologias.id_tecnologia = estudiantes_tecnologias.id_tecnologia;
+
+SELECT  id_pais, count(id_pais) as total from estudiantes GROUP BY id_pais;
+
+-- apartir del registro 3(no contará el 3) muestre 2
+SELECT * FROM estudiantes LIMIT 3,2;
+
+SELECT * FROM estudiantes LIMIT 2,1;
+
+-- muy util para paginaciones
+-- si estas leyendo esto y quieres saber mas aquí te dejo otro
+-- de mis repos https://github.com/MaurickThom/Oracle-MySQL-PostgreSQL
