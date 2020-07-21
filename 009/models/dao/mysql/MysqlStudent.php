@@ -77,9 +77,9 @@ class MysqlStudent implements DAO
         try {
             $this->connection = MysqlConnection::getInstanceDB()->getConnection();
             #SELECT * FROM nombre_tabla;
-            $query = "SELECT * FROM estudiantes";
+            $query = "SELECT * FROM estudiantes WHERE id_estudiante=:id_estudiante";
             #return $consulta = $conexion->query($query)->fetch();
-            return $consulta = $this->connection->query($query)->fetchAll();
+            return $consulta = $this->connection->query($query)->fetch();
         } catch (Exception $e) {
             exit("ERROR: " . $e->getMessage());
         } finally {

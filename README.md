@@ -65,3 +65,4 @@
 - https://dev.mysql.com/downloads/windows/installer/8.0.html
 - https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
 - https://stackoverflow.com/questions/21832809/php-singleton-database-connection-pattern
+- https://getuikit.com/docs/introduction
