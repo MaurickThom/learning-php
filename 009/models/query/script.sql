@@ -56,3 +56,27 @@ INSERT INTO usuarios VALUES (DEFAULT,"Thom","Roman","Aguilar","thomtwd@gmail.com
 SELECT * FROM usuarios;
 
 select count(*) from estudiantes;
+
+
+INSERT INTO paises (nombre) VALUES ("Peru"); 
+INSERT INTO paises (nombre) VALUES ("Argentina"); 
+INSERT INTO paises (nombre) VALUES ("Bolivia"); 
+INSERT INTO paises (nombre) VALUES ("Canada"); 
+INSERT INTO paises (nombre) VALUES ("Mexico"); 
+INSERT INTO paises (nombre) VALUES ("EEUU");
+
+INSERT INTO estudiantes(id_pais,edad,email,materno,nombre,paterno) VALUES
+    (1,22,"thomtwd@gmail.com","Aguilar","Thom","Roman"),
+    (2,18,"carlos@gmail.com","Algo","Alog","Algo"),
+    (3,20,"erick@gmail.com","Huarancca","Erick","Rivas");
+
+INSERT INTO tecnologias (nombre) VALUES 
+    ("javascript"),
+    ("php"),
+    ("python"),
+    ("IA");
+
+INSERT INTO estudiantes_tecnologias (id_estudiante,id_tecnologia) VALUES
+(1,11),
+(2,12),
+(3,9);
