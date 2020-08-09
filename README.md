@@ -13,8 +13,8 @@
 - [Introduccion a POO en PHP](./005/)
 - [POO avanzado I](./006/)
 - [POO avanzado II](./007/)
-- [DDBB en PHP I](./008/)
-- [DDBB en PHP II](./009/)
+- [BD en PHP I](./008/)
+- [BD en PHP II](./009/)
 
 ## Conclusión
 
