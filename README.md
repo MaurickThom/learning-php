@@ -67,3 +67,4 @@
 - https://stackoverflow.com/questions/21832809/php-singleton-database-connection-pattern
 - https://getuikit.com/docs/introduction
 - https://github.com/PHPMailer/PHPMailer
+- https://github.com/ErickHR/php-Correos - **repo de chavex**
