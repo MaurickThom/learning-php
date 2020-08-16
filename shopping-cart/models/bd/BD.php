@@ -1,6 +1,6 @@
 <?php 
 
-class DB{
+final class DB{
     private string $host;
     private string $db;
     private string $user;
