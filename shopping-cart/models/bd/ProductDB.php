@@ -7,22 +7,23 @@ class ProductDB extends DB{
     }
 
     public function getItemsByCategory(int $idCategory){
-        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_category = :id_category AND quantity > 0');
+        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_category = :id_category');
         $query->execute(['id_category' => $idCategory]);
         $rows = $query->fetchAll();
         return $rows;
     }
 
     public function getItem(int $idProduct){
-        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_product = :id_product AND quantity > 0');
+        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_product = :id_product');
         $query->execute(['id_product' => $idProduct]);
         $row = $query->fetch();
         return $row;
     }
 
-    public function updateItem(int $idProduct,bool $toBuy = true):bool{
+    public function updateItem(int $idProduct,bool $toBuy):bool{
         try{
-            $query = "UPDATE products SET quantity = quantity".($toBuy?'-' : '+')."1 WHERE id_product = $idProduct";
+            
+            $query = "UPDATE products SET quantity = quantity".(($toBuy==1)?'-' : '+')."1 WHERE id_product = $idProduct";
             $this->connect()->prepare($query)->execute();
             return true;
         }catch(Exception $ex){

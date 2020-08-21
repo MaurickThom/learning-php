@@ -4,8 +4,9 @@
     $data = [];
     $productsDB = new ProductDB();
     if(isset($_GET["id_product"])){
+        $toBuy = (int)$_POST["toBuy"];
         $id_product = (int)$_GET["id_product"];
-        $data = ["ok"=>$productsDB->updateItem(($id_product))];
+        $data = ["ok"=>$productsDB->updateItem($id_product,$toBuy)];
     }
     if(isset($_GET["id_category"])){
         $category = (int)$_GET["id_category"];

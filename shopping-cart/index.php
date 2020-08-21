@@ -139,10 +139,46 @@
 			right: 0;
 			background-color: #fff;
 			z-index: 10;
+			padding: 10px;
+			padding-left: 30px;
 		}
 
 		.show {
 			display: block;
+		}
+		.aside__title{
+			text-align: center;
+		}
+		.store-object{
+			width: 70%;
+			margin-top: 1.7em;
+			display: flex;
+		}
+		.store-object__content{
+			flex: 1;
+			margin: 0 auto;
+			padding-left: 2em;
+			margin-top: .5em;
+		}
+		.store-object__img{
+			width: 100px;
+		}
+		.store-object__title{
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.store-object__description{
+			margin-top: .5em;
+			font-size: 14px;
+		}
+		.store-object__action{
+			margin-top: 1em;
+			display: block;
+			padding: .5em 1.5em;
+			border: none;
+			color: #fff;
+			background: #FB900A;
+			cursor: pointer;
 		}
 	</style>
 </head>
@@ -161,16 +197,19 @@
 			</ul>
 		</nav>
 	</div>
-	<aside class="aside" id="aside"></aside>
+	<aside class="aside" id="aside">
+		<h3>Total $0</h3>
+	</aside>
 	<main>
 		<div class="product-container l-container" id="container"></div>
 	</main>
 	<script>
 		const navbar = document.querySelector('.nav-menu');
-		const aside = document.getElementById("aside")
-		const container = document.getElementById("container")
-		const juguetes = document.getElementById("juguetes")
-		const libros = document.getElementById("libros")
+		const aside = document.getElementById("aside");
+		const items = document.getElementById('quanProd')
+		const container = document.getElementById("container");
+		const juguetes = document.getElementById("juguetes");
+		const libros = document.getElementById("libros");
 		const TEMPLATE_PRODUCT = ({
 			img,
 			price,
@@ -178,32 +217,68 @@
 			quantity,
 			name_product
 		}) => `
-            <div class="product" data-id=${id_product}>
-                <img src="/Learning-php/shopping-cart${img}" alt="" class="product__img">
-                <h4 class="product__title">${name_product}</h4>
-                <div class="product__description">
-                    <div class="product__price">${price}$</div>
-                    <div class="product__quantity">n#${quantity}</div>
-                </div>
-                <button id="add" class="add">Agregar al carrito</button>
-            </div>
-        `;
+			<div class="product" data-id=${id_product}>
+				<img src="/Learning-php/shopping-cart${img}" alt="" class="product__img">
+				<h4 class="product__title">${name_product}</h4>
+				<div class="product__description">
+					<div class="product__price">${price}$</div>
+					<div class="product__quantity">n#${quantity}</div>
+				</div>
+				<button id="add" class="add">Agregar al carrito</button>
+			</div>
+		`;
 
-		const makeHash = (docs,key)=>{
-				return docs.reduce((map,doc)=>{
-						map[doc[key]]=doc
-						return map
-				},{})
-		}
+		const TEMPLATE_PRODUCT_CARRITO = ({
+			name_product,
+			img,
+			price,
+			item,
+			id_product,
+			category
+		}) => `
+			<div data-category=${category} data-id=${id_product} class="store-object">
+				<img src="/Learning-php/shopping-cart${img}" alt="" class="store-object__img">
+				<div class="store-object__content">
+					<h5 class="store-object__title">${name_product}</h5>
+					<div class="store-object__description">
+						<p>${item} de $${price}</p>
+						<p>Subtotal $${price*item}</p>
+					</div>
+					<button id="remove" class="store-object__action">Quitar 1 item</button>
+				</div class="store-object__content">
+			</div>
+		`;
 
+		const makeHash = (docs, key) => {
+			return docs.reduce((map, doc) => {
+				map[doc[key]] = doc
+				return map
+			}, {});
+		};
+		let carrito = {
+			"products": {
+				"libros": {},
+				"juguetes": {},
+			},
+			"count": 0,
+			"total": 0
+		};
 		const products = {
 			"libros": {},
 			"juguetes": {}
+		};
+
+		function saveDB() {
+			localStorage.setItem('carrito', JSON.stringify(carrito))
 		}
 
-		const carrito = [
+		function readDB() {
+			let local = JSON.parse(localStorage.getItem('carrito'))
+			if (local != undefined) {
+				carrito = JSON.parse(localStorage.getItem('carrito'))
+			}
+		}
 
-		]
 
 		async function ajax({
 			uri,
@@ -219,18 +294,35 @@
 			const data = await response.json();
 			return data;
 		}
-		async function renderProduct(id_category,name) {
-			if(!Object.keys(products[name]).length){
+		async function renderProduct(id_category, name) {
+			if (!Object.keys(products[name]).length) {
 				const productsApi = await ajax({
 					uri: "/Learning-php/shopping-cart/controller/ProductController.php?id_category=" + id_category,
 					method: "GET"
 				});
-				products[name] = {...makeHash(productsApi,'id_product')}
+				products[name] = {
+					...makeHash(productsApi, 'id_product')
+				};
 			}
-			container.dataset.category = name
-			container.innerHTML = ""
-			for(const id in products[name]){
-				container.innerHTML += TEMPLATE_PRODUCT(products[name][id])
+			container.dataset.category = name;
+			container.innerHTML = "";
+			for (const id in products[name]) {
+				if (!products[name][id]["quantity"]) continue
+				container.innerHTML += TEMPLATE_PRODUCT(products[name][id]);
+			}
+		}
+
+		function renderCarrito() {
+			items.textContent = carrito["count"]
+			aside.innerHTML = `<h3 class="aside__title">Total $${carrito["total"]}</h3>`
+			for (const product in carrito["products"]) {
+				for (const id in carrito["products"][product]) {
+					if (carrito["products"][product][id]["item"] > 0)
+						aside.innerHTML += TEMPLATE_PRODUCT_CARRITO({
+							...carrito["products"][product][id],
+							category: product
+						});
+				}
 			}
 		}
 
@@ -249,15 +341,15 @@
 					return;
 				addClassActive(target)
 				removeClassActive(libros)
-				await renderProduct(1,"juguetes");
+				await renderProduct(1, "juguetes");
 				return;
 			}
 			if (target.id === "libros") {
 				if (target.classList.contains("active"))
 					return;
-				removeClassActive(juguetes)
-				addClassActive(target)
-				await renderProduct(2,"libros");
+				removeClassActive(juguetes);
+				addClassActive(target);
+				await renderProduct(2, "libros");
 				return;
 			}
 			if (target.id === "cart") {
@@ -268,24 +360,72 @@
 			const target = event.target
 			if (target.id === "add") {
 				const productId = target.parentNode.dataset.id
+				const form = new FormData()
+				form.append("toBuy", 1)
 				const response = await ajax({
 					uri: "/Learning-php/shopping-cart/controller/ProductController.php?id_product=" + productId,
-					method: "POST"
+					method: "POST",
+					body: form
 				});
 				const category = container.dataset.category
-				const quantity = --products[category][productId]["quantity"]
-				target.parentNode.querySelector('.product__quantity').textContent =`n#${quantity}`
-
-        if(!quantity){
-					target.parentNode.remove()
+				if (!carrito["count"] || !Object.keys(carrito["products"][category]).length || carrito["products"][category][productId] == undefined) {
+					carrito["products"][category] = {
+						...carrito["products"][category],
+						[`${productId}`]: {
+							...products[category][productId],
+							item: 1
+						}
+					}
+				} else {
+					carrito["products"][category][productId]["item"]++
 				}
-				
+				carrito["count"]++
+				carrito["total"] = (+carrito["total"]) + (+products[category][productId]["price"])
+				renderCarrito()
+				saveDB()
+				const quantity = --products[category][productId]["quantity"]
+				target.parentNode.querySelector('.product__quantity').textContent = `n#${quantity}`
+
+				if (!quantity) {
+					target.parentNode.remove();
+				}
+
 			}
-		})
+		});
 
 		window.addEventListener('load', async () => {
+			readDB()
 			aside.classList.remove("show")
-			await renderProduct(1,"juguetes");
+			renderCarrito()
+			await renderProduct(1, "juguetes");
+		});
+		aside.addEventListener('click', async event => {
+			const target = event.target;
+			if (target.nodeName !== 'BUTTON') return
+			const parent = target.parentNode
+			const category = parent.dataset.category
+			const idProduct = parent.dataset.id
+			if(products[category][idProduct]!=undefined){
+				products[category][idProduct]["quantity"]++
+			}
+			carrito["total"] = (+carrito["total"]) - (+carrito["products"][category][idProduct]["price"])
+			carrito["count"]--
+			if (--carrito["products"][category][idProduct]["item"] == 0) {
+				delete carrito["products"][category][idProduct];
+			}
+
+			const form = new FormData()
+			form.append("toBuy", 0)
+			const response = await ajax({
+				uri: "/Learning-php/shopping-cart/controller/ProductController.php?id_product=" + idProduct,
+				method: "POST",
+				body: form
+			});
+			renderCarrito()
+			saveDB()
+			if (navbar.querySelector('.active').id === category) {
+				await renderProduct(products[category][idProduct]["id_category"], category)
+			}
 		});
 	</script>
 </body>
