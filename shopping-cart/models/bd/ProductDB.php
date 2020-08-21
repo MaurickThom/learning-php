@@ -1,21 +1,29 @@
 <?php
-final class ProductDB extends DB{
+require_once __DIR__."/BD.php";
+class ProductDB extends DB{
 
     function __construct(){
         parent::__construct();
     }
 
     public function getItemsByCategory(int $idCategory){
-        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_category = :id_category');
+        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_category = :id_category AND quantity > 0');
         $query->execute(['id_category' => $idCategory]);
         $rows = $query->fetchAll();
         return $rows;
     }
 
-    public function updateItem(int $idProduct):bool{
+    public function getItem(int $idProduct){
+        $query = $this->connect()->prepare('SELECT * FROM products WHERE id_product = :id_product AND quantity > 0');
+        $query->execute(['id_product' => $idProduct]);
+        $row = $query->fetch();
+        return $row;
+    }
+
+    public function updateItem(int $idProduct,bool $toBuy = true):bool{
         try{
-            $query = $this->connect()->prepare('UPDATE products SET quantity = quantity - 1 WHERE id_product = :id_product');
-            $query->execute(["id_product"=>$idProduct]);
+            $query = "UPDATE products SET quantity = quantity".($toBuy?'-' : '+')."1 WHERE id_product = $idProduct";
+            $this->connect()->prepare($query)->execute();
             return true;
         }catch(Exception $ex){
             return false;
