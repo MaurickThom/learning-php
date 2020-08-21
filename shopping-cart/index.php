@@ -402,7 +402,7 @@
 		aside.addEventListener('click', async event => {
 			const target = event.target;
 			if (target.nodeName !== 'BUTTON') return
-			const parent = target.parentNode
+			const parent = target.parentNode.parentNode
 			const category = parent.dataset.category
 			const idProduct = parent.dataset.id
 			if(products[category][idProduct]!=undefined){
