@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/home','home');
+Route::view('/home','home')->name('home');
 
 Route::redirect('asd','home',301);
 
@@ -32,7 +32,7 @@ Route::redirect('asd','home',301);
 // https://www.javatpoint.com/named-routes-in-laravel
 
 
-Route::view('/about','about')->name('about-alias');
+Route::view('/about','about')->name('about');
 
 /**
  * Generating URLs
@@ -46,9 +46,17 @@ Route::get("/test",['as'=>'test.example',function(){
     return "La url es ".$url;
 }]);
 
+// https://laravel.com/docs/5.1/routing
 Route::get('user/{id}/profile',function($id)  {
     $url=route('profile',['id'=>100]);
     return $url;
 })->name('profile');
 
 
+Route::get("blog","BlogController@index")->name('blog.index');
+
+// estos son parametros con la varaible post y slug es
+Route::get("blog/{post:slug}","BlogController@show")->name('blog.show');
+
+
+Route::view('/contacts','contacts')->name('contacts');
