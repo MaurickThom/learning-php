@@ -53,6 +53,9 @@ Thank you for considering contributing to the Laravel framework! The contributio
 In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
 ![alt](/img/flag.PNG)
+- configurar el factory y el seed
+- php artisan migrate:refresh --seed
+![alt](/img/seed.png)
 
 ## Security Vulnerabilities
 

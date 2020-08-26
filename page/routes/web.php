@@ -54,9 +54,12 @@ Route::get('user/{id}/profile',function($id)  {
 
 
 Route::get("blog","BlogController@index")->name('blog.index');
+Route::get("blog-slug","BlogController@indexSlug")->name('blog.slug');
 
-// estos son parametros con la varaible post y slug es
-Route::get("blog/{post:slug}","BlogController@show")->name('blog.show');
+// estos son parametros con la varaible post y le decimos que sea el campo slug de la base de datos
+Route::get("blog-slug/{post:slug}","BlogController@show_slug")->name('blog.slug');
+
+Route::get("blog/{id}","BlogController@show")->name('blog.show');
 
 
 Route::view('/contacts','contacts')->name('contacts');
