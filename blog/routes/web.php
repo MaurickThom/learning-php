@@ -1,5 +1,6 @@
 <?php
 
+use App\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,7 @@ Route::get('/categories', 'CategoriesController@index');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home-alias');
 Route::get('posts',function(){
-    return view('posts');
+    $posts = Post::get();
+    return view('posts',["posts"=>$posts]);
 });
-Route::get("/post/{post}","PostController@index")->name("post");
+Route::get("/post/{post:slug}","PostController@show")->name("post");
