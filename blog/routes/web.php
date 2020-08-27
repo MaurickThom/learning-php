@@ -17,7 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/categories', 'CategoriesController@index');
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home-alias');
+Route::get('posts',function(){
+    return view('posts');
+});
+Route::get("/post/{post}","PostController@index")->name("post");
