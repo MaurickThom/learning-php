@@ -17,6 +17,8 @@
             </a>
         </div>
     </nav>
+
+
      <!-- Contenido -->
      <section class="container-md content">
         <!-- Categorías -->
@@ -33,39 +35,22 @@
         <!-- Posts -->
         <div class="row justify-content-center">
             <div class="card-group col-10">
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="card">
-                        <img class="card-img-top" src="{{asset('images/3.png')}}" alt="Post Python">
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        <a href="#" class="post-link"><b>Leer más</b></a>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="card">
-                        <img class="card-img-top" src="{{asset('images/3.png')}}" alt="Post Python">
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        <a href="#" class="post-link"><b>Leer más</b></a>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="card">
-                        <img class="card-img-top" src="{{asset('images/3.png')}}" alt="Post Python">
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        <a href="#" class="post-link"><b>Leer más</b></a>
-                      </div>
-                    </div>
-                </div>
+                @if(isset($posts))
+                    @foreach($posts as $post)
+                        {{-- {{$post}} --}}
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="card">
+                                <img class="card-img-top" src="{{asset($post->path_img)}}" alt="Post Python">
+                              <div class="card-body">
+                                <h5 class="card-title">{{$post->title}}</h5>
+                                <p class="card-text">{{$post->description}}</p>
+                              <p class="card-text"><small class="text-muted">{{$post->updated_at}}</small></p>
+                              <a href="{{route('post',$post->slug)}}" class="post-link"><b>Leer más</b></a>
+                              </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
               </div>
             <div class="col-12">
                 <!-- Paginador -->
